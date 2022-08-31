@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  report-request:
+    container_name: report-request
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    networks:
+      app-network:
+        aliases:
+          - report-request
+    environment:
+      - SERVICE_NAME=report-request
+      - CHOKIDAR_USEPOLLING=true
+      - VUE_APP_API_URL=http://0.0.0.0:8070/api/v1/
+    expose:
+      - "80"
+    ports:
+      - "8080:80"
+
+networks:
+  app-network: {}
